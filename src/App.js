@@ -2,12 +2,29 @@ import { useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import './styles.css';
 
+import api from './services/api'
+
 function App() {
 
   const [input, setInput] = useState('')
+  const [cep, setCep] = useState({});
+  //tornou a função assíncrona  com o async
+  async function handleSearche(){
+    if (input === ''){
+      alert("Preencha com algum CEP")
+      return;
+    }
 
-  function handleSearche(){
-    alert("FOII")
+    try{
+      const response = await api.get(`${input}/json`);
+      setCep(response.data)
+      setInput("")
+    
+    }catch{
+      alert("OH NÃO ): Parece que este CEP não existe...");
+      setInput("")
+    }
+
   }
 
   return (
@@ -30,12 +47,12 @@ function App() {
       </div>
 
       <main className='main'>
-      <h2>CEP: 14406523</h2>
+      <h2>CEP: {cep.cep}</h2>
 
-      <span>Rua Teste algum</span>
-      <span>Complemento: algum complemento</span>
-      <span>Vila São Sebastião</span>
-      <span>Franca - SP</span>
+      <span>{cep.logradouro}</span>
+      <span>{cep.complemento}</span>
+      <span>{cep.bairro}</span>
+      <span>{cep.localidadew} - {cep.uf}</span>
       </main>
 
     </div>
