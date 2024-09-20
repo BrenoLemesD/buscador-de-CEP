@@ -18,7 +18,7 @@ function App() {
     try{
       const response = await api.get(`${input}/json`);
       setCep(response.data)
-      setInput("")
+      setInput("");
     
     }catch{
       alert("OH NÃO ): Parece que este CEP não existe...");
@@ -46,14 +46,19 @@ function App() {
 
       </div>
 
-      <main className='main'>
-      <h2>CEP: {cep.cep}</h2>
+      
+      {Object.keys(cep).length > 0 && (
+      // ^ verifica se tem algo dentro do objeto, se tem, mostra o main
+        <main className='main'>
+          <h2>CEP: {cep.cep}</h2>
 
-      <span>{cep.logradouro}</span>
-      <span>{cep.complemento}</span>
-      <span>{cep.bairro}</span>
-      <span>{cep.localidadew} - {cep.uf}</span>
-      </main>
+          <span>{cep.logradouro}</span>
+          <span>complemento: {cep.complemento}</span>
+          <span>{cep.bairro}</span>
+          <span>{cep.localidade} - {cep.uf}</span>
+        </main>
+
+      )}
 
     </div>
   );
